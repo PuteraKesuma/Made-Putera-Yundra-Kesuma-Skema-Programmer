@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>SiPinjam - Data Alat</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style.css" />
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert2/11.10.5/sweetalert2.all.min.js"></script>
+</head>
+<body>
+  <div class="layout">
+    <aside class="sidebar">
+      <div class="sb-title">SiPinjam</div>
+      <div class="sb-sub">Sistem Peminjaman Alat Kantor</div>
+
+      <div class="sb-user">
+        <div class="row">
+          <div>
+            <div style="font-weight:800" id="sbUser">-</div>
+            <div class="muted">Akun aktif</div>
+          </div>
+          <div id="sbRole" class="badge">-</div>
+        </div>
+        <div style="margin-top:10px">
+          <button id="btnLogout" class="btn ghost small" style="width:100%">Keluar</button>
+        </div>
+      </div>
+
+      <nav class="nav" id="nav"></nav>
+    </aside>
+
+    <main class="content">
+      <div class="topbar">
+        <div>
+          <div class="h1">Data Alat Kantor</div>
+          <div class="muted">Cari, lihat, dan kelola data alat</div>
+        </div>
+        <div class="actions">
+          <input id="qAlat" class="small" placeholder="Cari nama / kode alat..." />
+          <button id="btnAddAlat" class="btn primary small">Tambah Alat</button>
+        </div>
+      </div>
+
+      <div class="table-wrap">
+        <div class="table-head">
+          <div style="font-weight:800">Daftar Alat</div>
+          <div class="muted">Admin/Petugas bisa edit/hapus</div>
+        </div>
+        <div class="table-body">
+          <table>
+            <thead>
+              <tr>
+                <th>#</th><th>Kode</th><th>Nama</th><th>Kategori</th><th>Kondisi</th><th>Lokasi</th>
+                <th>Stok</th><th>Tersedia</th><th>Status</th><th>Aksi</th>
+              </tr>
+            </thead>
+            <tbody id="tbAlat"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="footer-note">Catatan: alat tidak bisa dihapus kalau masih ada peminjaman aktif.</div>
+    </main>
+  </div>
+
+  <script src="../db.js"></script>
+  <script src="../models.js"></script>
+  <script src="../app.js"></script>
+  <script>
+    App.initSeed();
+    const s = App.requireAuth(['admin','petugas','anggota']);
+    if (s){
+      App.mountShell('alat');
+      App.renderAlatPage();
+    }
+  </script>
+</body>
+</html>

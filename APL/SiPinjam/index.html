@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>SiPinjam - Login</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css" />
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert2/11.10.5/sweetalert2.all.min.js"></script>
+</head>
+<body class="auth-bg">
+
+  <div class="auth-card">
+    <div class="brand">
+      <div class="brand-badge">SiPinjam</div>
+      <div class="brand-title">Sistem Peminjaman Alat Kantor</div>
+      <div class="brand-sub">JavaScript (Vanilla) • HTML/CSS • localStorage</div>
+    </div>
+
+    <div class="form">
+      <label>Username</label>
+      <input id="inp-user" placeholder="admin / petugas / anggota" autocomplete="username" />
+
+      <label>Password</label>
+      <input id="inp-pass" type="password" placeholder="admin123 / petugas123 / anggota123" autocomplete="current-password" />
+
+      <button class="btn primary" id="btn-login">Masuk</button>
+
+      <div class="hint">
+        Akun default:
+        <span class="pill">admin / admin123</span>
+        <span class="pill">petugas / petugas123</span>
+        <span class="pill">anggota / anggota123</span>
+      </div>
+    </div>
+  </div>
+
+  <script src="db.js"></script>
+  <script src="models.js"></script>
+  <script src="app.js"></script>
+  <script>
+    App.initSeed();
+    document.getElementById('btn-login').addEventListener('click', () => App.doLogin());
+    document.getElementById('inp-pass').addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') App.doLogin();
+    });
+
+    // Jika sudah login -> dashboard
+    if (App.getSession()) location.href = "pages/dashboard.html";
+  </script>
+</body>
+</html>

@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>SiPinjam - Peminjaman</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style.css" />
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert2/11.10.5/sweetalert2.all.min.js"></script>
+</head>
+<body>
+  <div class="layout">
+    <aside class="sidebar">
+      <div class="sb-title">SiPinjam</div>
+      <div class="sb-sub">Sistem Peminjaman Alat Kantor</div>
+
+      <div class="sb-user">
+        <div class="row">
+          <div>
+            <div style="font-weight:800" id="sbUser">-</div>
+            <div class="muted">Akun aktif</div>
+          </div>
+          <div id="sbRole" class="badge">-</div>
+        </div>
+        <div style="margin-top:10px">
+          <button id="btnLogout" class="btn ghost small" style="width:100%">Keluar</button>
+        </div>
+      </div>
+
+      <nav class="nav" id="nav"></nav>
+    </aside>
+
+    <main class="content">
+      <div class="topbar">
+        <div>
+          <div class="h1">Peminjaman Alat</div>
+          <div class="muted">Form peminjaman + daftar peminjaman aktif</div>
+        </div>
+      </div>
+
+      <div class="grid2">
+        <div class="table-wrap">
+          <div class="table-head"><div style="font-weight:800">Form Peminjaman</div></div>
+          <div class="table-body">
+            <div class="muted" style="margin-bottom:10px">Anggota akan otomatis terisi dari session. Admin/Petugas bisa input manual.</div>
+
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+              <div>
+                <label>ID Anggota</label>
+                <input id="memberId" placeholder="Cari ID..." />
+              </div>
+              <div>
+                <label>Nama Anggota</label>
+                <input id="memberNama" placeholder="Nama peminjam..." />
+              </div>
+
+              <div>
+                <label>Alat</label>
+                <select id="selAlat"></select>
+              </div>
+              <div>
+                <label>Jumlah</label>
+                <input id="jumlah" type="number" value="1" />
+              </div>
+
+              <div>
+                <label>Tanggal Pinjam</label>
+                <input id="tglPinjam" type="date" />
+              </div>
+              <div>
+                <label>Durasi (Hari)</label>
+                <input id="durasi" type="number" value="3" />
+              </div>
+
+              <div style="grid-column:1 / -1">
+                <label>Catatan</label>
+                <input id="catatan" placeholder="Keperluan peminjaman..." />
+              </div>
+            </div>
+
+            <div style="margin-top:12px">
+              <button id="btnCatat" class="btn primary" style="width:100%">Catat Peminjaman</button>
+            </div>
+
+            <div class="footer-note">Aturan unik: maksimal 2 peminjaman aktif per anggota.</div>
+          </div>
+        </div>
+
+        <div class="table-wrap">
+          <div class="table-head">
+            <div style="font-weight:800">Peminjaman Aktif</div>
+            <input id="qAktif" class="small" placeholder="Cari peminjam / alat..." />
+          </div>
+          <div class="table-body">
+            <table>
+              <thead>
+                <tr><th>ID</th><th>Nama</th><th>Alat</th><th>Jml</th><th>Tgl Pinjam</th><th>J.Tempo</th><th>Status</th></tr>
+              </thead>
+              <tbody id="tbPinjAktif"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script src="../db.js"></script>
+  <script src="../models.js"></script>
+  <script src="../app.js"></script>
+  <script>
+    App.initSeed();
+    const s = App.requireAuth(['admin','petugas','anggota']);
+    if (s){
+      App.mountShell('peminjaman');
+
+      // anggota: lock input id/nama
+      if (s.role === 'anggota'){
+        document.getElementById('memberId').value = s.id;
+        document.getElementById('memberNama').value = s.nama;
+        document.getElementById('memberId').disabled = true;
+        document.getElementById('memberNama').disabled = true;
+      }
+
+      App.renderPeminjamanPage();
+    }
+  </script>
+</body>
+</html>

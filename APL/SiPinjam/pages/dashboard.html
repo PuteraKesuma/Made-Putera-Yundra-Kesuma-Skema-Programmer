@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>SiPinjam - Dashboard</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style.css" />
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert2/11.10.5/sweetalert2.all.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+</head>
+<body>
+  <div class="layout">
+    <aside class="sidebar">
+      <div class="sb-title">SiPinjam</div>
+      <div class="sb-sub">Sistem Peminjaman Alat Kantor</div>
+
+      <div class="sb-user">
+        <div class="row">
+          <div>
+            <div style="font-weight:800" id="sbUser">-</div>
+            <div class="muted">Akun aktif</div>
+          </div>
+          <div id="sbRole" class="badge">-</div>
+        </div>
+        <div style="margin-top:10px">
+          <button id="btnLogout" class="btn ghost small" style="width:100%">Keluar</button>
+        </div>
+      </div>
+
+      <nav class="nav" id="nav"></nav>
+    </aside>
+
+    <main class="content">
+      <div class="topbar">
+        <div>
+          <div class="h1">Beranda</div>
+          <div class="muted">Ringkasan status alat & peminjaman</div>
+        </div>
+      </div>
+
+      <section class="cards">
+        <div class="card"><div class="k">Total Alat</div><div class="v" id="kTotal">0</div></div>
+        <div class="card"><div class="k">Tersedia</div><div class="v" id="kTersedia">0</div></div>
+        <div class="card"><div class="k">Dipinjam</div><div class="v" id="kDipinjam">0</div></div>
+        <div class="card"><div class="k">Aktif</div><div class="v" id="kAktif">0</div></div>
+      </section>
+
+      <section class="grid2">
+        <div class="table-wrap">
+          <div class="table-head">
+            <div style="font-weight:800">Peminjaman Aktif Terbaru</div>
+            <div class="muted">Max 6 data</div>
+          </div>
+          <div class="table-body">
+            <table>
+              <thead>
+                <tr><th>Peminjam</th><th>Alat</th><th>Tgl Pinjam</th><th>Jatuh Tempo</th><th>Status</th></tr>
+              </thead>
+              <tbody id="tbAktif"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="table-wrap">
+          <div class="table-head"><div style="font-weight:800">Visualisasi</div></div>
+          <div class="table-body">
+            <div class="muted" style="margin-bottom:8px">Status alat</div>
+            <canvas id="chartDonut" height="140"></canvas>
+            <div class="muted" style="margin:14px 0 8px">Peminjaman per kategori</div>
+            <canvas id="chartBar" height="140"></canvas>
+          </div>
+        </div>
+      </section>
+
+      <div class="footer-note">Tip: gunakan menu di kiri untuk akses Data Alat, Peminjaman, Pengembalian, Laporan, Notifikasi.</div>
+    </main>
+  </div>
+
+  <script src="../db.js"></script>
+  <script src="../models.js"></script>
+  <script src="../app.js"></script>
+  <script>
+    App.initSeed();
+    const s = App.requireAuth(['admin','petugas','anggota']);
+    if (s){
+      App.mountShell('dashboard');
+      App.renderDashboard();
+    }
+  </script>
+</body>
+</html>

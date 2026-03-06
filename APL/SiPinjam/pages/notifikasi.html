@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>SiPinjam - Notifikasi</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style.css" />
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert2/11.10.5/sweetalert2.all.min.js"></script>
+</head>
+<body>
+  <div class="layout">
+    <aside class="sidebar">
+      <div class="sb-title">SiPinjam</div>
+      <div class="sb-sub">Sistem Peminjaman Alat Kantor</div>
+
+      <div class="sb-user">
+        <div class="row">
+          <div>
+            <div style="font-weight:800" id="sbUser">-</div>
+            <div class="muted">Akun aktif</div>
+          </div>
+          <div id="sbRole" class="badge">-</div>
+        </div>
+        <div style="margin-top:10px">
+          <button id="btnLogout" class="btn ghost small" style="width:100%">Keluar</button>
+        </div>
+      </div>
+
+      <nav class="nav" id="nav"></nav>
+    </aside>
+
+    <main class="content">
+      <div class="topbar">
+        <div>
+          <div class="h1">Notifikasi</div>
+          <div class="muted">Admin bisa menambah notifikasi</div>
+        </div>
+        <button id="btnAddNotif" class="btn primary small">Kelola Notifikasi</button>
+      </div>
+
+      <div id="notifList"></div>
+    </main>
+  </div>
+
+  <script src="../db.js"></script>
+  <script src="../models.js"></script>
+  <script src="../app.js"></script>
+  <script>
+    App.initSeed();
+    const s = App.requireAuth(['admin','petugas','anggota']);
+    if (s){
+      App.mountShell('notif');
+      App.renderNotifPage();
+    }
+  </script>
+</body>
+</html>
